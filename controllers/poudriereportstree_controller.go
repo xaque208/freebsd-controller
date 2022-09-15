@@ -107,14 +107,14 @@ func (r *PoudrierePortsTreeReconciler) Reconcile(ctx context.Context, req ctrl.R
 	reader := bytes.NewReader(out)
 	status, err := readPoudrierePortsStatus(reader, log, req)
 	if err != nil {
-		log.Error(err, "unable to read poudriere jail stats")
+		log.Error(err, "unable to read poudriere ports stats")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
 	poudrierePortsTree.Status = status
 
 	if err := r.Status().Update(ctx, &poudrierePortsTree); err != nil {
-		log.Error(err, "unable to update PoudriereJail status")
+		log.Error(err, "unable to update PoudrierePortsTree status")
 		return ctrl.Result{}, err
 	}
 
@@ -128,7 +128,7 @@ func (r *PoudrierePortsTreeReconciler) Reconcile(ctx context.Context, req ctrl.R
 
 		err := cmd.Run()
 		if err != nil {
-			log.Error(err, fmt.Sprintf("failed to execute'jail -c': %s", stderr.String()))
+			log.Error(err, fmt.Sprintf("failed to execute 'ports -c': %s", stderr.String()))
 			return ctrl.Result{}, client.IgnoreNotFound(err)
 		}
 	}

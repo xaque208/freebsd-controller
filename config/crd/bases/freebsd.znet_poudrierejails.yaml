@@ -37,6 +37,8 @@ spec:
             properties:
               architecture:
                 type: string
+              makeopts:
+                type: string
               version:
                 type: string
             type: object
@@ -50,6 +52,8 @@ spec:
               creationtime:
                 type: string
               fetchmethod:
+                type: string
+              makeopts:
                 type: string
               mountpoint:
                 type: string

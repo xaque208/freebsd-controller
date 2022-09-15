@@ -149,6 +149,12 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 			return ctrl.Result{}, nil
 		}
 
+		portshakerCmd := exec.Command("/usr/local/bin/portshaker")
+		err = portshakerCmd.Run()
+		if err != nil {
+			return ctrl.Result{}, client.IgnoreNotFound(err)
+		}
+
 		cmd := exec.Command("/usr/local/bin/poudriere", "bulk", "-f", listPath, "-p", poudriereBulkBuild.Spec.Tree, "-j", poudriereBulkBuild.Spec.Jail, "-J", "2")
 
 		var out bytes.Buffer

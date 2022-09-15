@@ -20,8 +20,11 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"crypto/sha256"
+	"errors"
 	"fmt"
 	"io"
+	"os"
 	"os/exec"
 	"strings"
 
@@ -94,6 +97,49 @@ func (r *PoudriereJailReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 
 		// Stop reconciliation as the item is being deleted
 		return ctrl.Result{}, nil
+	}
+
+	makeoptsPath := fmt.Sprintf("/usr/local/etc/poudriere.d/%s-make.conf", poudriereJail.Name)
+
+	if _, err := os.Stat(makeoptsPath); !errors.Is(err, os.ErrNotExist) {
+		f, err := os.Open(makeoptsPath)
+		if err != nil {
+			return ctrl.Result{}, nil
+		}
+		defer f.Close()
+
+		h := sha256.New()
+		if _, err := io.Copy(h, f); err != nil {
+			return ctrl.Result{}, nil
+		}
+
+		poudriereJail.Status.MakeoptsHash = fmt.Sprintf("%x", h.Sum(nil))
+
+		if err := r.Status().Update(ctx, &poudriereJail); err != nil {
+			log.Error(err, "unable to update PoudriereJail status")
+			return ctrl.Result{}, err
+		}
+	}
+
+	var b bytes.Buffer
+	_, err := b.WriteString(poudriereJail.Spec.Makeopts)
+	if err != nil {
+		return ctrl.Result{}, err
+	}
+
+	h := sha256.New()
+	hash := fmt.Sprintf("%x", h.Sum(b.Bytes()))
+	if hash != poudriereJail.Status.MakeoptsHash {
+		f, createErr := os.Create(makeoptsPath)
+		if createErr != nil {
+			return ctrl.Result{}, createErr
+		}
+		defer f.Close()
+
+		_, err = f.WriteString(poudriereJail.Spec.Makeopts)
+		if err != nil {
+			return ctrl.Result{}, err
+		}
 	}
 
 	cmd := exec.Command("/usr/local/bin/poudriere", "jail", "-l")

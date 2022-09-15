@@ -24,6 +24,7 @@ import (
 type PoudriereJailSpec struct {
 	Version      string `json:"version,omitempty"`
 	Architecture string `json:"architecture,omitempty"`
+	Makeopts     string `json:"makeopts,omitempty"`
 }
 
 // PoudriereJailStatus defines the observed state of PoudriereJail
@@ -34,6 +35,7 @@ type PoudriereJailStatus struct {
 	FetchMethod  string `json:"fetchmethod,omitempty"`
 	CreationDate string `json:"creationdate,omitempty"`
 	CreationTime string `json:"creationtime,omitempty"`
+	MakeoptsHash string `json:"makeopts,omitempty"`
 }
 
 //+kubebuilder:object:root=true
