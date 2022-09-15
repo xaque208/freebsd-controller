@@ -31,7 +31,7 @@ import (
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	freebsdv1 "github.com/xaque208/freebsd-controller/api/v1"
+	freebsdv1 "github.com/xaque208/freebsd_controller/api/v1"
 	//+kubebuilder:scaffold:imports
 )
 

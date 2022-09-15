@@ -33,7 +33,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
-	freebsdv1 "github.com/xaque208/freebsd-controller/api/v1"
+	freebsdv1 "github.com/xaque208/freebsd_controller/api/v1"
 )
 
 // PoudriereBulkBuildReconciler reconciles a PoudriereBulkBuild object

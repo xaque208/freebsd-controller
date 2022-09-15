@@ -31,8 +31,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/healthz"
 	"sigs.k8s.io/controller-runtime/pkg/log/zap"
 
-	freebsdv1 "github.com/xaque208/freebsd-controller/api/v1"
-	"github.com/xaque208/freebsd-controller/controllers"
+	freebsdv1 "github.com/xaque208/freebsd_controller/api/v1"
+	"github.com/xaque208/freebsd_controller/controllers"
 	//+kubebuilder:scaffold:imports
 )
 
@@ -108,6 +108,13 @@ func main() {
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
 		setupLog.Error(err, "unable to create controller", "controller", "PoudrierePortsTree")
+		os.Exit(1)
+	}
+	if err = (&controllers.NodeReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Node")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder

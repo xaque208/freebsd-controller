@@ -35,7 +35,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
 	"github.com/go-logr/logr"
-	freebsdv1 "github.com/xaque208/freebsd-controller/api/v1"
+	freebsdv1 "github.com/xaque208/freebsd_controller/api/v1"
 )
 
 // PoudriereJailReconciler reconciles a PoudriereJail object

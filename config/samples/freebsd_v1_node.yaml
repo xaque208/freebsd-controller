@@ -1,0 +1,6 @@
+apiVersion: freebsd.znet/v1
+kind: Node
+metadata:
+  name: node-sample
+spec:
+  # TODO(user): Add fields here

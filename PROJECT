@@ -1,8 +1,8 @@
 domain: znet
 layout:
 - go.kubebuilder.io/v3
-projectName: freebsd-controller
-repo: github.com/xaque208/freebsd-controller
+projectName: freebsd_controller
+repo: github.com/xaque208/freebsd_controller
 resources:
 - api:
     crdVersion: v1
@@ -11,7 +11,7 @@ resources:
   domain: znet
   group: freebsd
   kind: PoudriereJail
-  path: github.com/xaque208/freebsd-controller/api/v1
+  path: github.com/xaque208/freebsd_controller/api/v1
   version: v1
 - api:
     crdVersion: v1
@@ -20,7 +20,7 @@ resources:
   domain: znet
   group: freebsd
   kind: PoudriereBulkBuild
-  path: github.com/xaque208/freebsd-controller/api/v1
+  path: github.com/xaque208/freebsd_controller/api/v1
   version: v1
 - api:
     crdVersion: v1
@@ -29,6 +29,15 @@ resources:
   domain: znet
   group: freebsd
   kind: PoudrierePortsTree
-  path: github.com/xaque208/freebsd-controller/api/v1
+  path: github.com/xaque208/freebsd_controller/api/v1
+  version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: znet
+  group: freebsd
+  kind: Node
+  path: github.com/xaque208/freebsd_controller/api/v1
   version: v1
 version: "3"

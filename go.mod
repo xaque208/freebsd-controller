@@ -1,4 +1,4 @@
-module github.com/xaque208/freebsd-controller
+module github.com/xaque208/freebsd_controller
 
 go 1.18
 
