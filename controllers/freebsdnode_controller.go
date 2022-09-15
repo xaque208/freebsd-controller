@@ -18,6 +18,7 @@ package controllers
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/exec"
 
@@ -58,6 +59,7 @@ func (r *FreeBSDNodeReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 	}
 
 	if hostname != req.Name {
+		log.Info(fmt.Sprintf("skipping due to hostname!=req.Name: %s, %s", hostname, req.Name))
 		return ctrl.Result{}, nil
 	}
 
@@ -68,6 +70,11 @@ func (r *FreeBSDNodeReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 	}
 
 	node.Status = nodeStatus(log, req)
+
+	if err := r.Status().Update(ctx, &node); err != nil {
+		log.Error(err, "unable to update FreeBSDNode status")
+		return ctrl.Result{}, err
+	}
 
 	return ctrl.Result{}, nil
 }
@@ -89,5 +96,5 @@ func nodeStatus(log logr.Logger, req ctrl.Request) freebsdv1.FreeBSDNodeStatus {
 	}
 	status.Version = string(output)
 
-	return freebsdv1.FreeBSDNodeStatus{}
+	return status
 }
