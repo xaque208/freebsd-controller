@@ -1,0 +1,6 @@
+apiVersion: freebsd.znet/v1
+kind: PoudriereBulkBuild
+metadata:
+  name: poudrierebulkbuild-sample
+spec:
+  # TODO(user): Add fields here

@@ -1,0 +1,25 @@
+domain: znet
+layout:
+- go.kubebuilder.io/v3
+projectName: freebsd-controller
+repo: github.com/xaque208/freebsd-controller
+resources:
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: znet
+  group: freebsd
+  kind: PoudriereJail
+  path: github.com/xaque208/freebsd-controller/api/v1
+  version: v1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: znet
+  group: freebsd
+  kind: PoudriereBulkBuild
+  path: github.com/xaque208/freebsd-controller/api/v1
+  version: v1
+version: "3"

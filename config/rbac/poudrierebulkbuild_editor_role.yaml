@@ -1,0 +1,24 @@
+# permissions for end users to edit poudrierebulkbuilds.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: poudrierebulkbuild-editor-role
+rules:
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - poudrierebulkbuilds
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - poudrierebulkbuilds/status
+  verbs:
+  - get

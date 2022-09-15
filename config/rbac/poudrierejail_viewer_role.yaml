@@ -1,0 +1,20 @@
+# permissions for end users to view poudrierejails.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: poudrierejail-viewer-role
+rules:
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - poudrierejails
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - poudrierejails/status
+  verbs:
+  - get

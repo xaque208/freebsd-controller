@@ -1,0 +1,6 @@
+apiVersion: freebsd.znet/v1
+kind: PoudriereJail
+metadata:
+  name: poudrierejail-sample
+spec:
+  # TODO(user): Add fields here
