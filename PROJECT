@@ -37,7 +37,7 @@ resources:
   controller: true
   domain: znet
   group: freebsd
-  kind: Node
+  kind: FreeBSDNode
   path: github.com/xaque208/freebsd_controller/api/v1
   version: v1
 version: "3"

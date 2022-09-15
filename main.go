@@ -110,11 +110,11 @@ func main() {
 		setupLog.Error(err, "unable to create controller", "controller", "PoudrierePortsTree")
 		os.Exit(1)
 	}
-	if err = (&controllers.NodeReconciler{
+	if err = (&controllers.FreeBSDNodeReconciler{
 		Client: mgr.GetClient(),
 		Scheme: mgr.GetScheme(),
 	}).SetupWithManager(mgr); err != nil {
-		setupLog.Error(err, "unable to create controller", "controller", "Node")
+		setupLog.Error(err, "unable to create controller", "controller", "FreeBSDNode")
 		os.Exit(1)
 	}
 	//+kubebuilder:scaffold:builder

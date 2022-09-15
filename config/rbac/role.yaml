@@ -8,6 +8,32 @@ rules:
 - apiGroups:
   - freebsd.znet
   resources:
+  - freebsdnodes
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - freebsdnodes/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - freebsdnodes/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - freebsd.znet
+  resources:
   - nodes
   verbs:
   - create

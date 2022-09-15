@@ -23,39 +23,39 @@ import (
 // EDIT THIS FILE!  THIS IS SCAFFOLDING FOR YOU TO OWN!
 // NOTE: json tags are required.  Any new fields you add must have json tags for the fields to be serialized.
 
-// NodeSpec defines the desired state of Node
-type NodeSpec struct {
+// FreeBSDNodeSpec defines the desired state of FreeBSDNode
+type FreeBSDNodeSpec struct {
+	Domain    string   `json:"domain,omitempty"`
 	ASN       string   `json:"asn,omitempty"`
 	JailCIDRs []string `json:"jailCIDR,omitempty"`
 }
 
-// NodeStatus defines the observed state of Node
-type NodeStatus struct {
-	// INSERT ADDITIONAL STATUS FIELD - define observed state of cluster
-	// Important: Run "make" to regenerate code after modifying this file
+// FreeBSDNodeStatus defines the observed state of FreeBSDNode
+type FreeBSDNodeStatus struct {
+	Version string `json:"version,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 //+kubebuilder:subresource:status
 
-// Node is the Schema for the nodes API
-type Node struct {
+// FreeBSDNode is the Schema for the freebsdnodes API
+type FreeBSDNode struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   NodeSpec   `json:"spec,omitempty"`
-	Status NodeStatus `json:"status,omitempty"`
+	Spec   FreeBSDNodeSpec   `json:"spec,omitempty"`
+	Status FreeBSDNodeStatus `json:"status,omitempty"`
 }
 
 //+kubebuilder:object:root=true
 
-// NodeList contains a list of Node
-type NodeList struct {
+// FreeBSDNodeList contains a list of FreeBSDNode
+type FreeBSDNodeList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Node `json:"items"`
+	Items           []FreeBSDNode `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Node{}, &NodeList{})
+	SchemeBuilder.Register(&FreeBSDNode{}, &FreeBSDNodeList{})
 }

@@ -1,13 +1,13 @@
-# permissions for end users to view nodes.
+# permissions for end users to view freebsdnodes.
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: node-viewer-role
+  name: freebsdnode-viewer-role
 rules:
 - apiGroups:
   - freebsd.znet
   resources:
-  - nodes
+  - freebsdnodes
   verbs:
   - get
   - list
@@ -15,6 +15,6 @@ rules:
 - apiGroups:
   - freebsd.znet
   resources:
-  - nodes/status
+  - freebsdnodes/status
   verbs:
   - get
