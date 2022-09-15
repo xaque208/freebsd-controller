@@ -1,0 +1,6 @@
+apiVersion: freebsd.znet/v1
+kind: PoudrierePortsTree
+metadata:
+  name: poudriereportstree-sample
+spec:
+  # TODO(user): Add fields here

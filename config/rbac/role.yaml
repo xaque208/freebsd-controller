@@ -57,3 +57,29 @@ rules:
   - get
   - patch
   - update
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - poudriereportstrees
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - poudriereportstrees/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - poudriereportstrees/status
+  verbs:
+  - get
+  - patch
+  - update

@@ -1,0 +1,20 @@
+# permissions for end users to view poudriereportstrees.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: poudriereportstree-viewer-role
+rules:
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - poudriereportstrees
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - freebsd.znet
+  resources:
+  - poudriereportstrees/status
+  verbs:
+  - get
