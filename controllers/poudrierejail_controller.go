@@ -60,6 +60,12 @@ type PoudriereJailReconciler struct {
 func (r *PoudriereJailReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := log.FromContext(ctx)
 
+	err := nodeLabelMatch(ctx, r, req, poudriereLabelGate)
+	if err != nil {
+		log.Error(err, "node labels did not match")
+		return ctrl.Result{}, nil
+	}
+
 	var poudriereJail freebsdv1.PoudriereJail
 	if err := r.Get(ctx, req.NamespacedName, &poudriereJail); err != nil {
 		log.Error(err, "unable to fetch PoudriereJail")
@@ -102,7 +108,7 @@ func (r *PoudriereJailReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	makeoptsPath := fmt.Sprintf("/usr/local/etc/poudriere.d/%s-make.conf", poudriereJail.Name)
 
 	var b bytes.Buffer
-	_, err := b.WriteString(poudriereJail.Spec.Makeopts)
+	_, err = b.WriteString(poudriereJail.Spec.Makeopts)
 	if err != nil {
 		return ctrl.Result{}, err
 	}

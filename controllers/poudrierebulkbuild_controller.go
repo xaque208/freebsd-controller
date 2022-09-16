@@ -59,6 +59,12 @@ type PoudriereBulkBuildReconciler struct {
 func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := log.FromContext(ctx)
 
+	err := nodeLabelMatch(ctx, r, req, poudriereLabelGate)
+	if err != nil {
+		log.Error(err, "node labels did not match")
+		return ctrl.Result{}, nil
+	}
+
 	var poudriereBulkBuild freebsdv1.PoudriereBulkBuild
 	if err := r.Get(ctx, req.NamespacedName, &poudriereBulkBuild); err != nil {
 		log.Error(err, "unable to fetch PoudriereBulkBuild")
@@ -147,7 +153,7 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 	}
 
 	var b bytes.Buffer
-	_, err := b.WriteString(strings.Join(poudriereBulkBuild.Spec.Ports, "\n"))
+	_, err = b.WriteString(strings.Join(poudriereBulkBuild.Spec.Ports, "\n"))
 	if err != nil {
 		return ctrl.Result{}, err
 	}

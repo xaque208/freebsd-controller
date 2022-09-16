@@ -57,6 +57,12 @@ type PoudrierePortsTreeReconciler struct {
 func (r *PoudrierePortsTreeReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
 	log := log.FromContext(ctx)
 
+	err := nodeLabelMatch(ctx, r, req, poudriereLabelGate)
+	if err != nil {
+		log.Error(err, "node labels did not match")
+		return ctrl.Result{}, nil
+	}
+
 	var poudrierePortsTree freebsdv1.PoudrierePortsTree
 	if err := r.Get(ctx, req.NamespacedName, &poudrierePortsTree); err != nil {
 		log.Error(err, "unable to fetch PoudrierePortsTree")
