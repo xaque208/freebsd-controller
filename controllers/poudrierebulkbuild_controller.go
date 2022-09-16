@@ -72,7 +72,7 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 
 	var poudriereJail freebsdv1.PoudriereJail
 	if err := r.Get(ctx, jailName, &poudriereJail); err != nil {
-		log.Error(err, "unable to fetch PoudriereJail")
+		log.Error(err, fmt.Sprintf("unable to fetch PoudriereJail %q", jailName.Name))
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
@@ -83,7 +83,7 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 
 	var poudrierePortsTree freebsdv1.PoudrierePortsTree
 	if err := r.Get(ctx, treeName, &poudrierePortsTree); err != nil {
-		log.Error(err, "unable to fetch PoudrierePortsTree")
+		log.Error(err, fmt.Sprintf("unable to fetch PoudrierePortsTree %q", treeName.Name))
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
