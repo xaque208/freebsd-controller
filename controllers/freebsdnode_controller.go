@@ -65,7 +65,7 @@ func (r *FreeBSDNodeReconciler) Reconcile(ctx context.Context, req ctrl.Request)
 
 	var node freebsdv1.FreeBSDNode
 	if err := r.Get(ctx, req.NamespacedName, &node); err != nil {
-		log.Error(err, "unable to fetch PoudriereJail")
+		log.Error(err, "unable to fetch FreeBSDNode")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 

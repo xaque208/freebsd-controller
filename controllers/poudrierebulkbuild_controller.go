@@ -28,6 +28,7 @@ import (
 	"strings"
 
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
@@ -64,14 +65,24 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	jailName := types.NamespacedName{
+		Namespace: req.Namespace,
+		Name:      poudriereBulkBuild.Spec.Jail,
+	}
+
 	var poudriereJail freebsdv1.PoudriereJail
-	if err := r.Get(ctx, req.NamespacedName, &poudriereJail); err != nil {
+	if err := r.Get(ctx, jailName, &poudriereJail); err != nil {
 		log.Error(err, "unable to fetch PoudriereJail")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	treeName := types.NamespacedName{
+		Namespace: req.Namespace,
+		Name:      poudriereBulkBuild.Spec.Tree,
+	}
+
 	var poudrierePortsTree freebsdv1.PoudrierePortsTree
-	if err := r.Get(ctx, req.NamespacedName, &poudrierePortsTree); err != nil {
+	if err := r.Get(ctx, treeName, &poudrierePortsTree); err != nil {
 		log.Error(err, "unable to fetch PoudrierePortsTree")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
@@ -168,7 +179,7 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 		portshakerCmd := exec.Command("/usr/local/bin/portshaker")
 		err = portshakerCmd.Run()
 		if err != nil {
-			return ctrl.Result{}, client.IgnoreNotFound(err)
+			return ctrl.Result{}, err
 		}
 
 		cmd := exec.Command("/usr/local/bin/poudriere", "bulk", "-f", listPath, "-p", poudriereBulkBuild.Spec.Tree, "-j", poudriereBulkBuild.Spec.Jail, "-J", "2")
