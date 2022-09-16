@@ -177,9 +177,13 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 		}
 
 		portshakerCmd := exec.Command("/usr/local/bin/portshaker")
+		var portshakerOut bytes.Buffer
+		var portshakerStderr bytes.Buffer
+		portshakerCmd.Stdout = &portshakerOut
+		portshakerCmd.Stderr = &portshakerStderr
 		err = portshakerCmd.Run()
 		if err != nil {
-			return ctrl.Result{}, err
+			return ctrl.Result{}, fmt.Errorf("portshaker failed: %w: %s", err, &portshakerStderr)
 		}
 
 		cmd := exec.Command("/usr/local/bin/poudriere", "bulk", "-f", listPath, "-p", poudriereBulkBuild.Spec.Tree, "-j", poudriereBulkBuild.Spec.Jail, "-J", "2")
@@ -191,10 +195,8 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 
 		err = cmd.Run()
 		if err != nil {
-			log.Error(err, fmt.Sprintf("failed to execute 'bulk': %s", stderr.String()))
-			return ctrl.Result{}, client.IgnoreNotFound(err)
+			return ctrl.Result{}, fmt.Errorf("failed to execute 'bulk': %w: %s", err, stderr.String())
 		}
-
 	}
 
 	return ctrl.Result{}, nil
