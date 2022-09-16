@@ -32,6 +32,7 @@ type PoudrierePortsTreeStatus struct {
 	CreationDate string `json:"creationdate,omitempty"`
 	CreationTime string `json:"creationtime,omitempty"`
 	Mountpoint   string `json:"mountpoint,omitempty"`
+	Ready        bool   `json:"ready,omitempty"`
 }
 
 //+kubebuilder:object:root=true

@@ -36,6 +36,7 @@ type PoudriereJailStatus struct {
 	CreationDate string `json:"creationdate,omitempty"`
 	CreationTime string `json:"creationtime,omitempty"`
 	MakeoptsHash string `json:"makeopts,omitempty"`
+	Ready        bool   `json:"ready,omitempty"`
 }
 
 //+kubebuilder:object:root=true

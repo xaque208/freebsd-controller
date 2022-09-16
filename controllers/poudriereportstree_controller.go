@@ -175,8 +175,7 @@ func readPoudrierePortsStatus(r io.Reader, log logr.Logger, req ctrl.Request) (f
 		status.CreationDate = parts[2]
 		status.CreationTime = parts[3]
 		status.Mountpoint = parts[4]
-
-		return status, nil
+		status.Ready = true
 	}
 
 	if err := scanner.Err(); err != nil {

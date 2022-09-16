@@ -64,6 +64,22 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
+	var poudriereJail freebsdv1.PoudriereJail
+	if err := r.Get(ctx, req.NamespacedName, &poudriereJail); err != nil {
+		log.Error(err, "unable to fetch PoudriereJail")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	var poudrierePortsTree freebsdv1.PoudrierePortsTree
+	if err := r.Get(ctx, req.NamespacedName, &poudrierePortsTree); err != nil {
+		log.Error(err, "unable to fetch PoudrierePortsTree")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	if !poudrierePortsTree.Status.Ready || !poudriereJail.Status.Ready {
+		return ctrl.Result{}, fmt.Errorf("portsTree or jail are not ready")
+	}
+
 	myFinalizerName := "poudrierebulkbuild.freebsd.znet/finalizer"
 
 	if poudriereBulkBuild.DeletionTimestamp.IsZero() {

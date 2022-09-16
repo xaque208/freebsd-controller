@@ -214,8 +214,7 @@ func readPoudriereJailStatus(r io.Reader, log logr.Logger, req ctrl.Request) (fr
 		status.CreationDate = parts[4]
 		status.CreationTime = parts[5]
 		status.Mountpoint = parts[6]
-
-		return status, nil
+		status.Ready = true
 	}
 
 	if err := scanner.Err(); err != nil {
