@@ -130,7 +130,7 @@ func (r *PoudriereBulkBuildReconciler) Reconcile(ctx context.Context, req ctrl.R
 		poudriereBulkBuild.Status.Hash = fmt.Sprintf("%x", h.Sum(nil))
 
 		if err := r.Status().Update(ctx, &poudriereBulkBuild); err != nil {
-			log.Error(err, "unable to update PoudriereJail status")
+			log.Error(err, "unable to update PoudriereBulkBuild status")
 			return ctrl.Result{}, err
 		}
 	}

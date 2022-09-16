@@ -101,26 +101,6 @@ func (r *PoudriereJailReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 
 	makeoptsPath := fmt.Sprintf("/usr/local/etc/poudriere.d/%s-make.conf", poudriereJail.Name)
 
-	if _, err := os.Stat(makeoptsPath); !errors.Is(err, os.ErrNotExist) {
-		f, err := os.Open(makeoptsPath)
-		if err != nil {
-			return ctrl.Result{}, nil
-		}
-		defer f.Close()
-
-		h := sha256.New()
-		if _, err := io.Copy(h, f); err != nil {
-			return ctrl.Result{}, nil
-		}
-
-		poudriereJail.Status.MakeoptsHash = fmt.Sprintf("%x", h.Sum(nil))
-
-		if err := r.Status().Update(ctx, &poudriereJail); err != nil {
-			log.Error(err, "unable to update PoudriereJail status")
-			return ctrl.Result{}, err
-		}
-	}
-
 	var b bytes.Buffer
 	_, err := b.WriteString(poudriereJail.Spec.Makeopts)
 	if err != nil {
@@ -158,6 +138,21 @@ func (r *PoudriereJailReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	}
 
 	poudriereJail.Status = status
+
+	if _, err := os.Stat(makeoptsPath); !errors.Is(err, os.ErrNotExist) {
+		f, err := os.Open(makeoptsPath)
+		if err != nil {
+			return ctrl.Result{}, nil
+		}
+		defer f.Close()
+
+		h := sha256.New()
+		if _, err := io.Copy(h, f); err != nil {
+			return ctrl.Result{}, nil
+		}
+
+		poudriereJail.Status.MakeoptsHash = fmt.Sprintf("%x", h.Sum(nil))
+	}
 
 	if err := r.Status().Update(ctx, &poudriereJail); err != nil {
 		log.Error(err, "unable to update PoudriereJail status")
